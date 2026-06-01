@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Hidráulico Profesional - UTA</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            margin: 0;
+            padding: 20px 20px 50px 20px; /* Margen inferior extra para el autor */
+            display: flex;
+            justify-content: center;
+            position: relative;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .main-wrapper {
+            display: flex;
+            flex-direction: row;
+            gap: 24px;
+            max-width: 1250px;
+            width: 100%;
+        }
+        .panel-control {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            flex: 1;
+            min-width: 360px;
+        }
+        .panel-visual {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h2, h3 {
+            color: #0f172a;
+            margin-top: 0;
+            border-bottom: 2.5px solid #3b82f6;
+            padding-bottom: 10px;
+            font-size: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            background-color: #f8fafc;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        .label-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #334155;
+        }
+        .input-manual {
+            width: 100px;
+            padding: 6px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            text-align: center;
+            color: #2563eb;
+            font-weight: bold;
+            background-color: #ffffff;
+        }
+        .input-manual:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        input[type="range"] {
+            width: 100%;
+            accent-color: #3b82f6;
+            margin-top: 6px;
+        }
+        canvas {
+            background-color: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            margin-top: 10px;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+        .results-box {
+            width: 100%;
+            margin-top: 24px;
+            padding: 18px;
+            background-color: #f0fdf4;
+            border-left: 5px solid #22c55e;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-around;
+        }
+        .result-item {
+            text-align: center;
+        }
+        .result-item p {
+            margin: 2px 0 6px 0;
+            font-size: 14px;
+            color: #475569;
+            font-weight: 500;
+        }
+        .result-item span {
+            font-size: 26px;
+            font-weight: 700;
+            color: #166534;
+        }
+        /* Estilo del texto del autor en la esquina inferior */
+        .creditos-autor {
+            position: absolute;
+            bottom: 15px;
+            right: 25px;
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 500;
+            font-style: italic;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="panel-control">
+        <h2>Parámetros de Entrada</h2>
+        
+        <div class="form-group">
+            <div class="label-container">
+                <label for="num_tirante">Tirante de Agua 'y' [m]:</label>
+                <input type="number" id="num_tirante" class="input-manual" step="0.01" min="0.01" max="100" value="1.10" oninput="sincronizarManual('num_tirante', 'tirante')">
+            </div>
+            <input type="range" id="tirante" min="0.01" max="100" step="0.01" value="1.10" oninput="sincronizarSlider('tirante', 'num_tirante')">
+        </div>
+        
+        <div class="form-group">
+            <div class="label-container">
+                <label for="num_base">Ancho de Base 'b' [m]:</label>
+                <input type="number" id="num_base" class="input-manual" step="0.01" min="0.01" max="100" value="1.20" oninput="sincronizarManual('num_base', 'base')">
+            </div>
+            <input type="range" id="base" min="0.01" max="100" step="0.01" value="1.20" oninput="sincronizarSlider('base', 'num_base')">
+        </div>
+        
+        <div class="form-group">
+            <div class="label-container">
+                <label for="num_diametro">Diámetro Máx. 'D' [m]:</label>
+                <input type="number" id="num_diametro" class="input-manual" step="0.01" min="0.01" max="100" value="1.50" oninput="sincronizarManual('num_diametro', 'diametro')">
+            </div>
+            <input type="range" id="diametro" min="0.01" max="100" step="0.01" value="1.50" oninput="sincronizarSlider('diametro', 'num_diametro')">
+        </div>
+        
+        <div class="form-group">
+            <div class="label-container">
+                <label for="num_talud">Talud Izquierdo 'z':</label>
+                <input type="number" id="num_talud" class="input-manual" step="0.01" min="0.00" max="100" value="0.80" oninput="sincronizarManual('num_talud', 'talud')">
+            </div>
+            <input type="range" id="talud" min="0.00" max="100" step="0.01" value="0.80" oninput="sincronizarSlider('talud', 'num_talud')">
+        </div>
+    </div>
+
+    <div class="panel-visual">
+        <h3>Vista Estructural de la Sección</h3>
+        <canvas id="canalCanvas" width="600" height="350"></canvas>
+        
+        <div class="results-box">
+            <div class="result-item">
+                <p>Área Mojada (Am)</p>
+                <span id="rAm">0.000</span> <b style="color: #166534;">m²</b>
+            </div>
+            <div class="result-item">
+                <p>Perímetro Mojado (Pm)</p>
+                <span id="rPm">0.00</span> <b style="color: #166534;">m</b>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="creditos-autor">Hecho por Anthony Muyolema</div>
+
+<script>
+function sincronizarManual(origenId, destinoId) {
+    let elementoOrig = document.getElementById(origenId);
+    let valor = parseFloat(elementoOrig.value);
+    
+    if (valor > 100) {
+        valor = 100;
+        elementoOrig.value = 100;
+    }
+
+    if (!isNaN(valor) && valor >= 0) {
+        document.getElementById(destinoId).value = valor;
+        calcularYGraficar();
+    }
+}
+
+function sincronizarSlider(origenId, destinoId) {
+    let valor = parseFloat(document.getElementById(origenId).value);
+    document.getElementById(destinoId).value = valor.toFixed(2);
+    calcularYGraficar();
+}
+
+function calcularYGraficar() {
+    let y = parseFloat(document.getElementById('num_tirante').value) || 0.01;
+    let base = parseFloat(document.getElementById('num_base').value) || 0.01;
+    let D = parseFloat(document.getElementById('num_diametro').value) || 0.01;
+    let z = parseFloat(document.getElementById('num_talud').value) || 0.00;
+    
+    if (y > D) {
+        y = D;
+        document.getElementById('num_tirante').value = y.toFixed(2);
+        document.getElementById('tirante').value = y;
+    }
+
+    let r = D / 2;
+    
+    let b1 = y * z;
+    let A1 = (b1 * y) / 2;
+    
+    let A2 = base * y;
+    
+    let A3 = 0; 
+    let h = y - r;
+    let theta_rad = 0, A4 = 0, A5 = 0, alpha_rad = 0, arco_superior = 0;
+
+    if (y > r) {
+        A3 = (Math.PI * Math.pow(r, 2)) / 4; 
+        
+        let ratio = h / r;
+        if (ratio > 1) ratio = 1;
+        theta_rad = Math.acos(ratio);
+        let a = Math.sin(theta_rad) * r;
+        A4 = (a * h) / 2; 
+        
+        let theta_deg = theta_rad * (180 / Math.PI);
+        let alpha_deg = 90 - theta_deg;
+        alpha_rad = alpha_deg * (Math.PI / 180);
+        A5 = 0.5 * alpha_rad * Math.pow(r, 2); 
+        arco_superior = alpha_rad * r;
+    } else {
+        let ratio_inf = (r - y) / r;
+        if(ratio_inf > 1) ratio_inf = 1;
+        let beta = Math.acos(ratio_inf);
+        A3 = 0.5 * (beta - Math.sin(beta)) * Math.pow(r,2);
+        A4 = 0;
+        A5 = 0;
+        arco_superior = 0;
+    }
+    
+    let Am = A1 + A2 + A3 + A4 + A5;
+    
+    let P1 = Math.sqrt(Math.pow(b1, 2) + Math.pow(y, 2)); 
+    let P2 = base; 
+    let arco_inferior = y > r ? (2 * Math.PI * r) / 4 : (Math.acos((r-y)/r)) * r;
+    let P3 = arco_inferior + arco_superior; 
+    
+    let Pm = P1 + P2 + P3;
+    
+    document.getElementById('rAm').innerText = Am.toFixed(3);
+    document.getElementById('rPm').innerText = Pm.toFixed(2);
+    
+    renderizarGrafico(y, base, D, z, r);
+}
+
+function renderizarGrafico(y, base, D, z, r) {
+    let canvas = document.getElementById('canalCanvas');
+    let ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    let alto_real = D; 
+    let ancho_real = (D * z) + base + r; 
+
+    let escalaX = (canvas.width * 0.75) / ancho_real;
+    let escalaY = (canvas.height * 0.70) / alto_real;
+    let escala = Math.min(escalaX, escalaY); 
+
+    let ancho_dibujo_px = ancho_real * escala; 
+    let alto_dibujo_px = alto_real * escala;
+    
+    let origenX = ((canvas.width - ancho_dibujo_px) / 2) + (D * z * escala);
+    let origenY = ((canvas.height - alto_dibujo_px) / 2) + alto_dibujo_px;
+
+    let pA_X = origenX - (D * z * escala); let pA_Y = origenY - (D * escala);
+    let pB_X = origenX;                    let pB_Y = origenY;
+    let pC_X = origenX + (base * escala);  let pC_Y = origenY;
+    let centro_cirX = pC_X;
+    let centro_cirY = pC_Y - (r * escala);
+    let pD_X = centro_cirX;                let pD_Y = centro_cirY - (r * escala);
+
+    let aguaY = origenY - (y * escala);
+    ctx.fillStyle = "rgba(14, 165, 233, 0.25)"; 
+    ctx.beginPath();
+    
+    let agua_izqX = origenX - (y * z * escala);
+    ctx.moveTo(agua_izqX, aguaY);
+    ctx.lineTo(pB_X, pB_Y); 
+    ctx.lineTo(pC_X, pC_Y); 
+
+    if (y <= r) {
+        let angulo_agua = Math.acos((r - y) / r);
+        ctx.arc(centro_cirX, centro_cirY, r * escala, Math.PI / 2, (Math.PI / 2) - angulo_agua, true);
+    } else {
+        ctx.arc(centro_cirX, centro_cirY, r * escala, Math.PI / 2, 0, true);
+        let h_sup = y - r;
+        let angulo_sup = Math.asin(h_sup / r);
+        ctx.arc(centro_cirX, centro_cirY, r * escala, 0, -angulo_sup, true);
+    }
+    
+    ctx.lineTo(agua_izqX, aguaY);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = "#0284c7";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(agua_izqX, aguaY);
+    ctx.lineTo(centro_cirX + Math.cos(y > r ? -Math.asin((y-r)/r) : (Math.PI/2 - Math.acos((r-y)/r))) * r * escala, aguaY);
+    ctx.stroke();
+
+    ctx.strokeStyle = "#0f172a"; 
+    ctx.lineWidth = 4;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    
+    ctx.moveTo(pA_X, pA_Y);
+    ctx.lineTo(pB_X, pB_Y);
+    ctx.lineTo(pC_X, pC_Y);
+    ctx.arc(centro_cirX, centro_cirY, r * escala, Math.PI / 2, -Math.PI / 2, true);
+    ctx.lineTo(pA_X, pA_Y); 
+    
+    ctx.stroke();
+
+    ctx.strokeStyle = "#94a3b8";
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([6, 6]); 
+    
+    ctx.beginPath();
+    ctx.moveTo(origenX, origenY);
+    ctx.lineTo(origenX, pA_Y);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(pC_X, pC_Y);
+    ctx.lineTo(pC_X, pD_Y);
+    ctx.stroke();
+    ctx.setLineDash([]); 
+
+    ctx.fillStyle = "#475569";
+    ctx.font = "bold 14px 'Segoe UI', sans-serif";
+    
+    ctx.fillText("①", origenX - ((D*z)/2)*escala - 6, origenY - (alto_real/2)*escala);
+    ctx.fillText("②", origenX + (base/2)*escala - 6, origenY - (alto_real/2)*escala);
+    ctx.fillText("③", pC_X + (r/2)*escala - 6, centro_cirY + 5);
+}
+
+window.onload = function() {
+    calcularYGraficar();
+};
+</script>
+
+</body>
+</html>
