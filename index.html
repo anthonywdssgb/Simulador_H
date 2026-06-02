@@ -10,19 +10,90 @@
             background-color: #f1f5f9;
             color: #1e293b;
             margin: 0;
-            padding: 20px 20px 50px 20px; /* Margen inferior extra para el autor */
+            padding: 20px;
             display: flex;
-            justify-content: center;
-            position: relative;
+            flex-direction: column;
+            align-items: center;
             min-height: 100vh;
             box-sizing: border-box;
         }
+        
+        /* Encabezado Institucional Universitario con Logos */
+        .header-universidad {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 1250px;
+            padding: 20px 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+            border-top: 5px solid #b91c1c;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .logo-univ {
+            height: 75px;
+            width: auto;
+            object-fit: contain;
+            background: transparent !important;
+        }
+        .texto-header {
+            flex: 1;
+            text-align: center;
+        }
+        .header-universidad h1 {
+            color: #b91c1c;
+            margin: 0 0 5px 0;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+        .header-universidad h2.facultad {
+            color: #475569;
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .header-universidad h2.tema {
+            color: #0f172a;
+            margin: 0 0 15px 0;
+            font-size: 17px;
+            font-weight: 600;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 12px;
+        }
+        .datos-estudiante {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            font-size: 14px;
+            color: #334155;
+        }
+        .dato-item {
+            background-color: #f8fafc;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border-left: 3px solid #64748b;
+        }
+        .dato-item strong {
+            color: #0f172a;
+        }
+
+        /* Contenedor Principal */
         .main-wrapper {
             display: flex;
             flex-direction: row;
             gap: 24px;
             max-width: 1250px;
             width: 100%;
+            margin-bottom: 24px;
         }
         .panel-control {
             background-color: #ffffff;
@@ -42,12 +113,13 @@
             flex-direction: column;
             align-items: center;
         }
-        h2, h3 {
+        h3 {
             color: #0f172a;
             margin-top: 0;
             border-bottom: 2.5px solid #3b82f6;
             padding-bottom: 10px;
-            font-size: 20px;
+            font-size: 18px;
+            width: 100%;
         }
         .form-group {
             margin-bottom: 20px;
@@ -75,10 +147,6 @@
             font-weight: bold;
             background-color: #ffffff;
         }
-        .input-manual:focus {
-            outline: none;
-            border-color: #3b82f6;
-        }
         input[type="range"] {
             width: 100%;
             accent-color: #3b82f6;
@@ -89,7 +157,6 @@
             border: 1.5px solid #e2e8f0;
             border-radius: 12px;
             margin-top: 10px;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.02);
         }
         .results-box {
             width: 100%;
@@ -100,6 +167,7 @@
             border-radius: 8px;
             display: flex;
             justify-content: space-around;
+            box-sizing: border-box;
         }
         .result-item {
             text-align: center;
@@ -108,31 +176,157 @@
             margin: 2px 0 6px 0;
             font-size: 14px;
             color: #475569;
-            font-weight: 500;
         }
         .result-item span {
             font-size: 26px;
             font-weight: 700;
             color: #166534;
         }
-        /* Estilo del texto del autor en la esquina inferior */
-        .creditos-autor {
-            position: absolute;
-            bottom: 15px;
-            right: 25px;
+
+        /* Panel Inferior de Fórmulas Optimizada (Acordeón) */
+        .panel-formulas {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 1250px;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            box-sizing: border-box;
+        }
+        
+        /* Estilos del Acordeón Interactivo */
+        details.acordeon-memoria {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        details.acordeon-memoria[open] {
+            border-color: #3b82f6;
+            background-color: #ffffff;
+        }
+        summary.acordeon-titulo {
+            padding: 14px 20px;
+            font-weight: 700;
+            font-size: 15px;
+            color: #1e293b;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            outline: none;
+        }
+        summary.acordeon-titulo:hover {
+            background-color: #f1f5f9;
+        }
+        details.acordeon-memoria[open] summary.acordeon-titulo {
+            border-bottom: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+            color: #2563eb;
+        }
+        .acordeon-contenido {
+            padding: 20px;
+            display: flex;
+            flex-direction: row;
+            gap: 24px;
+            align-items: center;
+        }
+        
+        /* Ajustes de contenido interno */
+        .mini-canvas-container {
+            display: flex;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .mini-canvas {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+        }
+        .procedimiento-contenedor {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 13.5px;
+            color: #0f172a;
+            line-height: 1.5;
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+        .seccion-calculo {
+            padding: 10px 14px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .titulo-sub {
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 5px;
             font-size: 12px;
-            color: #64748b;
-            font-weight: 500;
-            font-style: italic;
+            text-transform: uppercase;
             letter-spacing: 0.5px;
+        }
+        .linea-formula {
+            color: #475569;
+            font-style: italic;
+            margin-bottom: 2px;
+        }
+        .linea-calc {
+            background-color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 5px;
+            margin: 3px 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            border: 1px solid #f1f5f9;
+        }
+        .total-destacado {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            border-left: 3.5px solid #0284c7;
+        }
+        .total-final-card {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 900px) {
+            .main-wrapper { flex-direction: column; }
+            .acordeon-contenido { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
+<div class="header-universidad">
+    <div class="header-container">
+        <img class="logo-univ" src="https://upload.wikimedia.org/wikipedia/commons/2/29/Logo_UTA.png" alt="Logo UTA" onerror="this.style.visibility='hidden'">
+        
+        <div class="texto-header">
+            <h1>UNIVERSIDAD TÉCNICA DE AMBATO</h1>
+            <h2 class="facultad">Facultad de Ingeniería Civil y Mecánica</h2>
+            <h2 class="tema">ÁREA Y PERÍMETRO MOJADO (SECCIÓN COMPUESTA)</h2>
+        </div>
+        
+        <img class="logo-univ" src="https://images.unidosporlauta.com/logos/ficm-logo-clean.png" alt="Logo FICM" onerror="this.style.visibility='hidden'">
+    </div>
+    
+    <div class="datos-estudiante">
+        <div class="dato-item"><strong>Nombre:</strong> Anthony Muyolema</div>
+        <div class="dato-item"><strong>Curso:</strong> Primero "B"</div>
+        <div class="dato-item"><strong>Materia:</strong> Tecnologías de la Información y la Comunicación</div>
+    </div>
+</div>
+
 <div class="main-wrapper">
     <div class="panel-control">
-        <h2>Parámetros de Entrada</h2>
+        <h3>Parámetros de Entrada</h3>
         
         <div class="form-group">
             <div class="label-container">
@@ -173,18 +367,57 @@
         
         <div class="results-box">
             <div class="result-item">
-                <p>Área Mojada (Am)</p>
+                <p><strong>Área Mojada (Am)</strong></p>
                 <span id="rAm">0.000</span> <b style="color: #166534;">m²</b>
             </div>
             <div class="result-item">
-                <p>Perímetro Mojado (Pm)</p>
+                <p><strong>Perímetro Mojado (Pm)</strong></p>
                 <span id="rPm">0.00</span> <b style="color: #166534;">m</b>
             </div>
         </div>
     </div>
 </div>
 
-<div class="creditos-autor">Hecho por Anthony Muyolema</div>
+<div class="panel-formulas">
+    <h3>Memoria de Cálculo Desplegable</h3>
+    
+    <details class="acordeon-memoria">
+        <summary class="acordeon-titulo">▶ Sección 1: Rectángulo Central <span>(Clic para desplegar)</span></summary>
+        <div class="acordeon-contenido">
+            <div class="mini-canvas-container">
+                <canvas id="canvasA1" class="mini-canvas" width="160" height="100"></canvas>
+            </div>
+            <div class="procedimiento-contenedor" id="procS1"></div>
+        </div>
+    </details>
+
+    <details class="acordeon-memoria">
+        <summary class="acordeon-titulo">▶ Sección 2: Talud Triangular Izquierdo <span>(Clic para desplegar)</span></summary>
+        <div class="acordeon-contenido">
+            <div class="mini-canvas-container">
+                <canvas id="canvasA2" class="mini-canvas" width="160" height="100"></canvas>
+            </div>
+            <div class="procedimiento-contenedor" id="procS2"></div>
+        </div>
+    </details>
+
+    <details class="acordeon-memoria">
+        <summary class="acordeon-titulo">▶ Sección 3: Curva Circular Derecha <span>(Clic para desplegar)</span></summary>
+        <div class="acordeon-contenido">
+            <div class="mini-canvas-container">
+                <canvas id="canvasA3" class="mini-canvas" width="160" height="100"></canvas>
+            </div>
+            <div class="procedimiento-contenedor" id="procS3"></div>
+        </div>
+    </details>
+
+    <details class="acordeon-memoria" open>
+        <summary class="acordeon-titulo" style="color: #166534;">▼ Consolidado Global de la Sección</summary>
+        <div class="acordeon-contenido" style="background-color: #f0fdf4;">
+            <div class="procedimiento-contenedor" id="procGlobal" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));"></div>
+        </div>
+    </details>
+</div>
 
 <script>
 function sincronizarManual(origenId, destinoId) {
@@ -208,6 +441,37 @@ function sincronizarSlider(origenId, destinoId) {
     calcularYGraficar();
 }
 
+function dibujarCota(ctx, x1, y1, x2, y2, texto, esVertical) {
+    ctx.strokeStyle = "#1d4ed8"; 
+    ctx.fillStyle = "#1d4ed8";
+    ctx.lineWidth = 1.5;
+
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+
+    let largoTope = 6;
+    ctx.beginPath();
+    if (esVertical) {
+        ctx.moveTo(x1 - largoTope, y1); ctx.lineTo(x1 + largoTope, y1);
+        ctx.moveTo(x2 - largoTope, y2); ctx.lineTo(x2 + largoTope, y2);
+    } else {
+        ctx.moveTo(x1, y1 - largoTope); ctx.lineTo(x1, y1 + largoTope);
+        ctx.moveTo(x2 - largoTope, y2); ctx.lineTo(x2 + largoTope, y2);
+    }
+    ctx.stroke();
+
+    ctx.font = "bold 12px 'Segoe UI', sans-serif";
+    if (esVertical) {
+        ctx.textAlign = "left";
+        ctx.fillText(texto, Math.max(x1, x2) + 8, (y1 + y2) / 2 + 4);
+    } else {
+        ctx.textAlign = "center";
+        ctx.fillText(texto, (x1 + x2) / 2, Math.max(y1, y2) + 16);
+    }
+}
+
 function calcularYGraficar() {
     let y = parseFloat(document.getElementById('num_tirante').value) || 0.01;
     let base = parseFloat(document.getElementById('num_base').value) || 0.01;
@@ -222,52 +486,130 @@ function calcularYGraficar() {
 
     let r = D / 2;
     
-    let b1 = y * z;
-    let A1 = (b1 * y) / 2;
+    let A1 = base * y;
+    let P2 = base; 
+
+    let b1 = y * z; 
+    let A2 = (b1 * y) / 2;
+    let P1 = Math.sqrt(Math.pow(b1, 2) + Math.pow(y, 2)); 
     
-    let A2 = base * y;
-    
-    let A3 = 0; 
-    let h = y - r;
-    let theta_rad = 0, A4 = 0, A5 = 0, alpha_rad = 0, arco_superior = 0;
+    let A3_cuadrante = (Math.PI * Math.pow(r, 2)) / 4; 
+    let P4_cuadrante = (Math.PI * r) / 2; 
+
+    let h = 0, a = 0, theta_rad = 0, alpha_rad = 0, alpha_deg = 0;
+    let A5_triangulo = 0, A6_sector = 0, A3_total = 0, P5_arco = 0, P3_total = 0;
 
     if (y > r) {
-        A3 = (Math.PI * Math.pow(r, 2)) / 4; 
-        
+        h = y - r;
         let ratio = h / r;
         if (ratio > 1) ratio = 1;
         theta_rad = Math.acos(ratio);
-        let a = Math.sin(theta_rad) * r;
-        A4 = (a * h) / 2; 
+        a = Math.sin(theta_rad) * r;
         
-        let theta_deg = theta_rad * (180 / Math.PI);
-        let alpha_deg = 90 - theta_deg;
+        A5_triangulo = (a * h) / 2; 
+        alpha_deg = 90 - (theta_rad * (180 / Math.PI));
         alpha_rad = alpha_deg * (Math.PI / 180);
-        A5 = 0.5 * alpha_rad * Math.pow(r, 2); 
-        arco_superior = alpha_rad * r;
+        A6_sector = 0.5 * alpha_rad * Math.pow(r, 2);
+        
+        A3_total = A3_cuadrante + A5_triangulo + A6_sector;
+        P5_arco = alpha_rad * r; 
+        P3_total = P4_cuadrante + P5_arco;
     } else {
         let ratio_inf = (r - y) / r;
         if(ratio_inf > 1) ratio_inf = 1;
         let beta = Math.acos(ratio_inf);
-        A3 = 0.5 * (beta - Math.sin(beta)) * Math.pow(r,2);
-        A4 = 0;
-        A5 = 0;
-        arco_superior = 0;
+        
+        A3_total = 0.5 * (beta - Math.sin(beta)) * Math.pow(r, 2);
+        P3_total = beta * r;
     }
     
-    let Am = A1 + A2 + A3 + A4 + A5;
-    
-    let P1 = Math.sqrt(Math.pow(b1, 2) + Math.pow(y, 2)); 
-    let P2 = base; 
-    let arco_inferior = y > r ? (2 * Math.PI * r) / 4 : (Math.acos((r-y)/r)) * r;
-    let P3 = arco_inferior + arco_superior; 
-    
-    let Pm = P1 + P2 + P3;
+    let Am = A1 + A2 + A3_total;
+    let Pm = P1 + P2 + P3_total;
     
     document.getElementById('rAm').innerText = Am.toFixed(3);
     document.getElementById('rPm').innerText = Pm.toFixed(2);
     
+    actualizarMemoriasExtendidas(y, base, z, b1, A1, P2, A2, P1, A3_cuadrante, P4_cuadrante, h, a, alpha_deg, alpha_rad, A5_triangulo, A6_sector, A3_total, P5_arco, P3_total, Am, Pm, r);
+    
     renderizarGrafico(y, base, D, z, r);
+    renderizarMinis(y, base, D, z, r, h, a);
+}
+
+function actualizarMemoriasExtendidas(y, base, z, b1, A1, P2, A2, P1, A4, P4, h, a, alpha_deg, alpha_rad, A5, A6, A3_T, P5, P3_T, Am, Pm, r) {
+    document.getElementById('procS1').innerHTML = `
+        <div class="seccion-calculo">
+            <div class="titulo-sub">■ Área Mojada (A₁)</div>
+            <div class="linea-formula">A₁ = b × y</div>
+            <div class="linea-calc">A₁ = ${base.toFixed(2)} × ${y.toFixed(2)}</div>
+            <div class="linea-calc total-destacado">A₁ = ${A1.toFixed(2)} m²</div>
+        </div>
+        <div class="seccion-calculo">
+            <div class="titulo-sub">■ Perímetro Mojado (P₂)</div>
+            <div class="linea-formula">P₂ = b</div>
+            <div class="linea-calc total-destacado">P₂ = ${P2.toFixed(2)} m</div>
+        </div>
+    `;
+
+    document.getElementById('procS2').innerHTML = `
+        <div class="seccion-calculo">
+            <div class="titulo-sub">■ Geometría Base</div>
+            <div class="linea-formula">Ancho x = y × z</div>
+            <div class="linea-calc">x = ${b1.toFixed(2)} m</div>
+        </div>
+        <div class="seccion-calculo">
+            <div class="titulo-sub">■ Área Mojada (A₂)</div>
+            <div class="linea-formula">A₂ = (x × y) / 2</div>
+            <div class="linea-calc total-destacado">A₂ = ${A2.toFixed(2)} m²</div>
+        </div>
+        <div class="seccion-calculo">
+            <div class="titulo-sub">■ Perímetro Mojado (P₁)</div>
+            <div class="linea-formula">P₁ = √(x² + y²)</div>
+            <div class="linea-calc total-destacado">P₁ = ${P1.toFixed(2)} m</div>
+        </div>
+    `;
+
+    if (y > r) {
+        document.getElementById('procS3').innerHTML = `
+            <div class="seccion-calculo">
+                <div class="titulo-sub">■ Componentes de Área (A₃)</div>
+                <div class="linea-formula">A_cuad = ${A4.toFixed(2)} | A_trián = ${A5.toFixed(2)} | A_sect = ${A6.toFixed(2)}</div>
+                <div class="linea-calc total-destacado">A₃ = ∑ = ${A3_T.toFixed(2)} m²</div>
+            </div>
+            <div class="seccion-calculo">
+                <div class="titulo-sub">■ Componentes de Perímetro (P₃)</div>
+                <div class="linea-formula">P_cuad = ${P4.toFixed(2)} | P_arco = ${P5.toFixed(2)}</div>
+                <div class="linea-calc total-destacado">P₃ = ∑ = ${P3_T.toFixed(2)} m</div>
+            </div>
+        `;
+    } else {
+        document.getElementById('procS3').innerHTML = `
+            <div class="seccion-calculo">
+                <div class="titulo-sub">■ Tramo Inferior (y ≤ r)</div>
+                <div class="linea-formula">A₃ = ½·(β - sen β)·r²</div>
+                <div class="linea-calc total-destacado">A₃ = ${A3_T.toFixed(2)} m²</div>
+            </div>
+            <div class="seccion-calculo">
+                <div class="titulo-sub">■ Tramo Perímetro (P₃)</div>
+                <div class="linea-formula">P₃ = β × r</div>
+                <div class="linea-calc total-destacado">P₃ = ${P3_T.toFixed(2)} m</div>
+            </div>
+        `;
+    }
+
+    document.getElementById('procGlobal').innerHTML = `
+        <div class="total-final-card">
+            <strong style="color: #166534; display:block; margin-bottom:4px;">ÁREA MOJADA TOTAL:</strong>
+            <div class="linea-formula">Am = A₁ + A₂ + A₃</div>
+            <div class="linea-calc" style="background:#ffffff;">Am = ${A1.toFixed(2)} + ${A2.toFixed(2)} + ${A3_T.toFixed(2)}</div>
+            <div class="linea-calc" style="background:#166534; color:#ffffff; font-size:14px;">Am = ${Am.toFixed(3)} m²</div>
+        </div>
+        <div class="total-final-card" style="border-color: #cbd5e1; background: #ffffff;">
+            <strong style="color: #0f172a; display:block; margin-bottom:4px;">PERÍMETRO MOJADO TOTAL:</strong>
+            <div class="linea-formula">Pm = P₁ + P₂ + P₃</div>
+            <div class="linea-calc" style="background:#ffffff;">Pm = ${P1.toFixed(2)} + ${P2.toFixed(2)} + ${P3_T.toFixed(2)}</div>
+            <div class="linea-calc" style="background:#0f172a; color:#ffffff; font-size:14px;">Pm = ${Pm.toFixed(2)} m</div>
+        </div>
+    `;
 }
 
 function renderizarGrafico(y, base, D, z, r) {
@@ -278,15 +620,15 @@ function renderizarGrafico(y, base, D, z, r) {
     let alto_real = D; 
     let ancho_real = (D * z) + base + r; 
 
-    let escalaX = (canvas.width * 0.75) / ancho_real;
-    let escalaY = (canvas.height * 0.70) / alto_real;
+    let escalaX = (canvas.width * 0.65) / ancho_real;
+    let escalaY = (canvas.height * 0.65) / alto_real;
     let escala = Math.min(escalaX, escalaY); 
 
     let ancho_dibujo_px = ancho_real * escala; 
     let alto_dibujo_px = alto_real * escala;
     
-    let origenX = ((canvas.width - ancho_dibujo_px) / 2) + (D * z * escala);
-    let origenY = ((canvas.height - alto_dibujo_px) / 2) + alto_dibujo_px;
+    let origenX = ((canvas.width - ancho_dibujo_px) / 2) + (D * z * escala) - 20;
+    let origenY = ((canvas.height - alto_dibujo_px) / 2) + alto_dibujo_px - 15;
 
     let pA_X = origenX - (D * z * escala); let pA_Y = origenY - (D * escala);
     let pB_X = origenX;                    let pB_Y = origenY;
@@ -313,7 +655,6 @@ function renderizarGrafico(y, base, D, z, r) {
         let angulo_sup = Math.asin(h_sup / r);
         ctx.arc(centro_cirX, centro_cirY, r * escala, 0, -angulo_sup, true);
     }
-    
     ctx.lineTo(agua_izqX, aguaY);
     ctx.closePath();
     ctx.fill();
@@ -327,39 +668,78 @@ function renderizarGrafico(y, base, D, z, r) {
 
     ctx.strokeStyle = "#0f172a"; 
     ctx.lineWidth = 4;
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
     ctx.beginPath();
-    
-    ctx.moveTo(pA_X, pA_Y);
-    ctx.lineTo(pB_X, pB_Y);
-    ctx.lineTo(pC_X, pC_Y);
+    ctx.moveTo(pA_X, pA_Y); ctx.lineTo(pB_X, pB_Y); ctx.lineTo(pC_X, pC_Y);
     ctx.arc(centro_cirX, centro_cirY, r * escala, Math.PI / 2, -Math.PI / 2, true);
     ctx.lineTo(pA_X, pA_Y); 
-    
     ctx.stroke();
 
     ctx.strokeStyle = "#94a3b8";
     ctx.lineWidth = 1.5;
     ctx.setLineDash([6, 6]); 
-    
     ctx.beginPath();
-    ctx.moveTo(origenX, origenY);
-    ctx.lineTo(origenX, pA_Y);
-    ctx.stroke();
-
+    ctx.moveTo(origenX, origenY); ctx.lineTo(origenX, pA_Y); ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(pC_X, pC_Y);
-    ctx.lineTo(pC_X, pD_Y);
-    ctx.stroke();
+    ctx.moveTo(pC_X, pC_Y); ctx.lineTo(pC_X, pD_Y); ctx.stroke();
     ctx.setLineDash([]); 
 
     ctx.fillStyle = "#475569";
     ctx.font = "bold 14px 'Segoe UI', sans-serif";
-    
-    ctx.fillText("①", origenX - ((D*z)/2)*escala - 6, origenY - (alto_real/2)*escala);
-    ctx.fillText("②", origenX + (base/2)*escala - 6, origenY - (alto_real/2)*escala);
-    ctx.fillText("③", pC_X + (r/2)*escala - 6, centro_cirY + 5);
+    ctx.fillText("A₂", origenX - ((D*z)/2)*escala - 6, origenY - (y/2)*escala);
+    ctx.fillText("A₁", origenX + (base/2)*escala - 6, origenY - (y/2)*escala);
+    ctx.fillText("A₃", pC_X + (r/3)*escala, origenY - (y/2)*escala);
+
+    let despliegueAbajo = origenY + 20;
+    let despliegueCotaY = pC_X + (r * escala) + 20;
+    let despliegueCotaD = pC_X + (r * escala) + 75;
+
+    dibujarCota(ctx, pB_X, despliegueAbajo, pC_X, despliegueAbajo, `b = ${base.toFixed(2)} m`, false);
+    dibujarCota(ctx, despliegueCotaY, origenY, despliegueCotaY, aguaY, `y = ${y.toFixed(2)} m`, true);
+    dibujarCota(ctx, despliegueCotaD, origenY, despliegueCotaD, pD_Y, `D = ${D.toFixed(2)} m`, true);
+
+    let offsetTaludX = 25; 
+    let taludBaseY = origenY - (0.2 * D * escala); 
+    let taludAlturaPx = 1 * escala * 0.35;         
+    let taludAnchoPx = z * escala * 0.35;          
+
+    ctx.strokeStyle = "#b91c1c"; 
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(pA_X - offsetTaludX, taludBaseY - taludAlturaPx);
+    ctx.lineTo(pA_X - offsetTaludX, taludBaseY);
+    ctx.lineTo(pA_X - offsetTaludX + taludAnchoPx, taludBaseY);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.fillStyle = "#b91c1c";
+    ctx.font = "bold 11px 'Segoe UI', sans-serif";
+    ctx.textAlign = "right";
+    ctx.fillText("1", pA_X - offsetTaludX - 6, taludBaseY - (taludAlturaPx / 2) + 4);
+    ctx.textAlign = "center";
+    ctx.fillText(`${z.toFixed(2)}`, pA_X - offsetTaludX + (taludAnchoPx / 2), taludBaseY + 14);
+}
+
+function renderizarMinis(y, base, D, z, r, h, a) {
+    let c1 = document.getElementById('canvasA1'); let ctx1 = c1.getContext('2d');
+    ctx1.clearRect(0,0,160,100);
+    ctx1.fillStyle = "#e0f2fe"; ctx1.strokeStyle = "#0284c7"; ctx1.lineWidth = 2;
+    ctx1.fillRect(30, 20, 100, 50); ctx1.strokeRect(30, 20, 100, 50);
+    ctx1.fillStyle = "#1e293b"; ctx1.font = "11px sans-serif";
+    ctx1.fillText(`b=${base.toFixed(1)}`, 65, 85); ctx1.fillText(`y=${y.toFixed(1)}`, 134, 48);
+
+    let c2 = document.getElementById('canvasA2'); let ctx2 = c2.getContext('2d');
+    ctx2.clearRect(0,0,160,100);
+    ctx2.fillStyle = "#e0f2fe"; ctx2.strokeStyle = "#0284c7"; ctx2.lineWidth = 2;
+    ctx2.beginPath(); ctx2.moveTo(40,20); ctx2.lineTo(120,70); ctx2.lineTo(40,70); ctx2.closePath(); ctx2.fill(); ctx2.stroke();
+    ctx2.fillStyle = "#1e293b"; ctx2.font = "11px sans-serif";
+    ctx2.fillText(`x`, 75, 85); ctx2.fillText(`y=${y.toFixed(1)}`, 10, 48);
+
+    let c3 = document.getElementById('canvasA3'); let ctx3 = c3.getContext('2d');
+    ctx3.clearRect(0,0,160,100);
+    ctx3.fillStyle = "#e0f2fe"; ctx3.strokeStyle = "#0284c7"; ctx3.lineWidth = 2;
+    ctx3.beginPath(); ctx3.arc(30, 50, 40, Math.PI/2, -Math.PI/2, true); ctx3.lineTo(30,50); ctx3.closePath(); ctx3.fill(); ctx3.stroke();
+    ctx3.fillStyle = "#1e293b"; ctx3.font = "10px sans-serif";
+    ctx3.fillText(`r=${r.toFixed(1)}`, 35, 45);
 }
 
 window.onload = function() {
